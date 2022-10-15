@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { Iitems, IitemsArray, IitemsObject } from "../interface/Iitems";
+import { Iitem, Iitemitem, ITableBody } from "../interface/Iitem";
 
-export const ItemContext = createContext<
-  Iitems | IitemsArray | IitemsObject | null
->(null);
+export const ItemContext = createContext<Iitem | ITableBody | Iitemitem | null>(
+  null
+);
 
 export default ItemContext;

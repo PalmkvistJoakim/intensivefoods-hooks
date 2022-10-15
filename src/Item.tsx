@@ -1,5 +1,5 @@
 import Favorite from "./common/Favorite";
-import { IitemsObject } from "./interface/Iitems";
+import { Iitemitem } from "./interface/Iitem";
 
 function Item({
   _id,
@@ -10,7 +10,7 @@ function Item({
   isFavorite,
   onFavor,
   onDelete,
-}: IitemsObject) {
+}: Iitemitem) {
   return (
     <>
       <td>{name}</td>
