@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { getFoods } from "./services/fakeFoodService";
-import Table from "./common/Table";
 import Pagination from "./common/Pagination";
 import Iitem from "./interface/Iitem";
 import ItemContext from "./context/ItemContext";
@@ -8,6 +7,9 @@ import ListGroup from "./common/ListGroup";
 import { Iarticle } from "./interface/Iarticle";
 import { getCategories } from "./services/fakeCategoryService";
 import { Paginate } from "./utils/Paginate";
+import { Isort } from "./interface/Isort";
+import _ from "lodash";
+import ItemTable from "./ItemTable";
 
 const DEFAULT_ARTICLES = { _id: "", name: "All Categories" };
 
@@ -18,6 +20,10 @@ function Items() {
   const [articles, setArticles] = useState<Iarticle[]>([]);
   const [selectedArticle, setSelectedArticle] =
     useState<Iarticle>(DEFAULT_ARTICLES);
+  const [sortColumn, setSortColumn] = useState<Isort>({
+    path: "name",
+    order: "asc",
+  });
 
   useEffect(() => {
     setItems(getFoods());
@@ -45,13 +51,24 @@ function Items() {
 
   const handleSelectedArticle = (article: Iarticle) => {
     setSelectedArticle(article);
+    setSelectedPage(1);
+  };
+
+  const handleSort = (sortColumn: Isort) => {
+    setSortColumn({ path: sortColumn.path, order: sortColumn.order });
   };
 
   const filteredItems = selectedArticle._id
     ? items.filter((i) => i.category._id === selectedArticle._id)
     : items;
 
-  const allItems: Iitem[] = Paginate(filteredItems, pageSize, selectedPage);
+  const sortedItems = _.orderBy(
+    filteredItems,
+    [sortColumn.path],
+    [sortColumn.order]
+  );
+
+  const allItems: Iitem[] = Paginate(sortedItems, pageSize, selectedPage);
 
   const { length: count } = filteredItems;
 
@@ -71,12 +88,14 @@ function Items() {
             <p>Showing {count} foods in the database</p>
             <ItemContext.Provider
               value={{
+                sortColumn,
                 allItems,
+                onSort: handleSort,
                 onDelete: handleDelete,
                 onFavor: handleFavorite,
               }}
             >
-              <Table />
+              <ItemTable />
             </ItemContext.Provider>
             <Pagination
               pageSize={pageSize}

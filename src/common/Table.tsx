@@ -1,7 +1,12 @@
+import { Icolumn, Icolumnkey } from "../interface/Icolumn";
 import TableBody from "./TableBody";
 import TableHeader from "./TableHeader";
 
-function Table() {
+interface Props {
+  columns: Icolumn[] | Icolumnkey[];
+}
+
+function Table(columns: Props) {
   return (
     <div>
       <table className="table">

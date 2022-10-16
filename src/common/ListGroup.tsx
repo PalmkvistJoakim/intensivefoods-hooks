@@ -12,6 +12,7 @@ function ListGroup({ articles, selectedArticle, onSelectedArticle }: Props) {
       <ul className="list-group">
         {articles.map((article) => (
           <li
+            key={article._id}
             style={{ cursor: "pointer" }}
             className={
               selectedArticle === article

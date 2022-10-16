@@ -1,4 +1,5 @@
 import { Iarticle } from "./Iarticle";
+import { Isort } from "./Isort";
 
 export interface Iitem {
   _id: string;
@@ -11,8 +12,10 @@ export interface Iitem {
 
 export interface ITableBody {
   allItems: Iitem[];
+  sortColumn: Isort;
   onDelete: (id: string) => void;
   onFavor: (id: string) => void;
+  onSort: (sortColumn: Isort) => void;
 }
 
 export interface Iitemitem extends Iitem {
